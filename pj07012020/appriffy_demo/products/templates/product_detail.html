@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+  <h3>{{ prod.name|capfirst }}</h3>
+  <p>Tittle: {{ prod.title }}</p>
+  <p>Description: {{ prod.description }}</p>
+  <p>URL: {{ prod.url }}</p>
+  <p>Votes: {{ prod.votes }}</p>
+  <p>SubmitterAvatarUrl: {{ prod.submitterAvatarUrl }}</p>
+  <p>ProductImageUrl: {{ prod.productImageUrl }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% load static %}
+<html lang="en-US" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Product Page </title>
+    <link rel="stylesheet" id="ample-style-css" href="{% static 'style.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body class="wide">
+<div id="page" class="hfeed site">
+    <header>
+        <div class="header">
+            <div class="main-head-wrap inner-wrap clearfix">
+                <div id="header-logo-image">
+                    <a href="/">
+                        <img src="{% static 'images/logo.jpeg' %}" alt="">
+                    </a>
+                </div>
+                <div id="header-text" class="">
+                    <h1 id="site-title">
+                        <a href="/" title="Product Page" rel="home">Products Page</a>
+                    </h1>
+                    <p>Product list based on number of votes in descending order</p>
+                </div>
+            </div>
+            <h1 align="center">Popular Products </h1>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+    <footer id="colophon">
+        <div class="inner-wrap">
+            Designed By Appriffy, Bangalore, India
+        </div>
+    </footer>
+</div>
+<script src="{% static 'main.js' %}"></script>
+</body>
+</html>

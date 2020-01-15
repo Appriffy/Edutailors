@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="productsSpace">
+    {% csrf_token %}
+</div>
+<script type="text/javascript">
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+       }
+    var csrftoken = getCookie('csrftoken');
+    $(document).ready(function() {
+        $.ajax({
+            url: "http://localhost:8000/getall/",
+            type: 'GET',
+            headers: {"X-CSRFToken": csrftoken},
+            dataType: 'json', // added data type
+            success: function(res) {
+                for(i=0;i<res.response.length;i++){
+                    var mainDiv = document.createElement("div");
+                    mainDiv.style = "height:200px"
+                    var productsSpace = document.getElementById("productsSpace");
+                    productsSpace.appendChild(mainDiv);
+                    var div = document.createElement("div");
+                    div.style = "height:150px;";
+                    mainDiv.appendChild(div)
+                    var div1 = document.createElement("div");
+                    div1.style = "height:50px;";
+                    div1.classList.add("col-sm-1")
+                    div.appendChild(div1)
+                    var div2 = document.createElement("div");
+                    div2.style = "height:50px;";
+                    div2.classList.add("col-sm-8")
+                    div.appendChild(div2)
+                    var div3 = document.createElement("div");
+                    div3.style = "height:248px;";
+                    div2.appendChild(div3)
+                    var img1 = document.createElement("img");
+                    img1.src = res.response[i].productImageUrl
+                    img1.classList.add("iconDetails")
+                    div3.appendChild(img1)
+                    var iconVote = document.createElement('i')
+                    iconVote.classList.add("fa", "fa-sort-asc");
+                    iconVote.onclick = incVotes;
+                    iconVote.style = "font-size:50px;color:blue; float:left; padding-right:10px; padding-left:16px;"
+                    iconVote.id = res.response[i].id
+                    div3.appendChild(iconVote)
+                    var h1=document.createElement('h1')
+                    h1.style ="font-size:30px;"
+                    h1.id = res.response[i].id+ "i"
+                    h1.innerHTML = res.response[i].votes
+                    div3.appendChild(h1)
+                    p = document.createElement('p')
+                    p.style = "font-size:.8em;margin: -10px 25px 17px 190px;"
+                    p.innerHTML = "title:" + res.response[i].title
+                    p1 = document.createElement('p')
+                    p1.style = "font-size:.8em;margin: -10px 25px 17px 251px;"
+                    p1.innerHTML = "Description:" + res.response[i].description
+                    p2 = document.createElement('p')
+                    p2.style = "float:left;padding-top: 10px; margin: -5px 11px 17px 19px;"
+                    p2.innerHTML = "Submitted By:"
+                    div3.appendChild(p)
+                    div3.appendChild(p1)
+                    div3.appendChild(p2)
+                    var img2 = document.createElement("img");
+                    img2.src = res.response[i].submitterAvatarUrl
+                    img2.classList.add("imgbanner")
+                    img2.style = "float:left;"
+                    div3.appendChild(img2)
+                }
+             }
+        });
+     });
+
+
+    function incVotes(e) {
+        e = e || window.event;
+        e = e.target || e.srcElement;
+        if (e.nodeName === 'I') {
+            console.log(e.id);
+            count = document.getElementById(e.id+"i").innerHTML;
+            $.ajax({
+              url: 'http://localhost:8000/votes/'+e.id,
+              type: 'PUT',
+              headers: {"X-CSRFToken": csrftoken},
+              contentType:'application/json',
+              data: JSON.stringify({"votes":Number(count)+1}),
+              success: function(data) {
+                alert('Load was performed.');
+                }
+            });
+        }
+        location.reload();
+    }
+
+</script>
+{% endblock %}
